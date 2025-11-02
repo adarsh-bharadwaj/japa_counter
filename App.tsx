@@ -34,7 +34,7 @@ const AppInner = () => {
     if (jailMonkey.isJailBroken()) {
       exitAlert("The Device Is Rooted");
     }
-  }
+  };
 
   const checkIfDeviceIsEmulator = async () => {
     if (await DeviceInfo.isEmulator()) {
