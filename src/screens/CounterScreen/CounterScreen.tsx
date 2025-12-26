@@ -67,6 +67,14 @@ const Counter = () => {
             const mappedData = parsedData.map((rec) => {
                 if (rec?.id == routes?.params?.id) {
                     rec.Today++;
+                    if(rec.Today%rec.cycleLength==0)
+                    {
+                        Vibration.vibrate(1000)
+                    }
+                    else
+                    {
+                        Vibration.vibrate(200);
+                    }
                     rec.lifeTime++;
                     rec.lastUpdateDate = moment().format('l')
                     record = rec
@@ -78,7 +86,7 @@ const Counter = () => {
             const jsonValue = JSON.stringify(mappedData);
             // console.log(parsedData.length)
             await AsyncStorage.setItem('data', jsonValue);
-            await Vibration.vibrate(200)
+            // await Vibration.vibrate(200)
             setCounterData(record);
         }
         catch (e) {

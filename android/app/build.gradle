@@ -1,12 +1,12 @@
-// apply plugin: "com.android.application"
-// apply plugin: "org.jetbrains.kotlin.android"
-// apply plugin: "com.facebook.react"
+apply plugin: "com.android.application"
+apply plugin: "org.jetbrains.kotlin.android"
+apply plugin: "com.facebook.react"
 
 // /**
 //  * This is the configuration block to customize your React Native Android app.
 //  * By default you don't need to apply any configuration, just uncomment the lines you need.
 //  */
-// react {
+react {
 //     /* Folders */
 //     //   The root of your project, i.e. where "package.json" lives. Default is '../..'
 //     // root = file("../../")
@@ -51,13 +51,13 @@
 //     // hermesFlags = ["-O", "-output-source-map"]
 
 //     /* Autolinking */
-//     autolinkLibrariesWithApp()
-// }
+    autolinkLibrariesWithApp()
+}
 
 // /**
 //  * Set this to true to Run Proguard on Release builds to minify the Java bytecode.
 //  */
-// def enableProguardInReleaseBuilds = true
+def enableProguardInReleaseBuilds = true
 
 // /**
 //  * The preferred build flavor of JavaScriptCore (JSC)
@@ -70,103 +70,67 @@
 //  * give correct results when using with locales other than en-US. Note that
 //  * this variant is about 6MiB larger per architecture than default.
 //  */
-// def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
+def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
 
-// android {
-//     ndkVersion rootProject.ext.ndkVersion
-//     buildToolsVersion rootProject.ext.buildToolsVersion
-//     compileSdk rootProject.ext.compileSdkVersion
+android {
+    ndkVersion rootProject.ext.ndkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdk rootProject.ext.compileSdkVersion
 
-//     namespace "com.japa_counter"
-//     defaultConfig {
-//         applicationId "com.japa_counter"
-//         minSdkVersion rootProject.ext.minSdkVersion
-//         targetSdkVersion rootProject.ext.targetSdkVersion
-//         versionCode 4
-//         versionName "3.1"
-//     }
-//     signingConfigs {
-//         debug {
-//             storeFile file('debug.keystore')
-//             storePassword 'android'
-//             keyAlias 'androiddebugkey'
-//             keyPassword 'android'
-//         }
-//         release {
-//             if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
-//                 storeFile file(MYAPP_UPLOAD_STORE_FILE)
-//                 storePassword MYAPP_UPLOAD_STORE_PASSWORD
-//                 keyAlias MYAPP_UPLOAD_KEY_ALIAS
-//                 keyPassword MYAPP_UPLOAD_KEY_PASSWORD
-//             }
-//         }
-//     }
-//     buildTypes {
-//         debug {
-//             signingConfig signingConfigs.debug
-//         }
-//         release {
-//             // Caution! In production, you need to generate your own keystore file.
-//             // see https://reactnative.dev/docs/signed-apk-android.
-//             signingConfig signingConfigs.debug
-//             signingConfig signingConfigs.release
-//             minifyEnabled enableProguardInReleaseBuilds
-//             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-//         }
-//     }
-//     splits {
-//         abi {
-//             reset()
-//             enable true
-//             universalApk false
-//             include "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
-//         }
-//     }
-// }
+    namespace "com.japa_counter"
+    defaultConfig {
+        applicationId "com.japa_counter"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 5
+        versionName "3.2"
+    }
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+        release {
+            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
+                storeFile file(MYAPP_UPLOAD_STORE_FILE)
+                storePassword MYAPP_UPLOAD_STORE_PASSWORD
+                keyAlias MYAPP_UPLOAD_KEY_ALIAS
+                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+            }
+        }
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            // Caution! In production, you need to generate your own keystore file.
+            // see https://reactnative.dev/docs/signed-apk-android.
+            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+    splits {
+        abi {
+            reset()
+            enable true
+            universalApk false
+            include "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+        }
+    }
+}
 
-// dependencies {
-//     // The version of react-native is set by the React Native Gradle Plugin
-//     implementation("com.facebook.react:react-android")
+dependencies {
+    // The version of react-native is set by the React Native Gradle Plugin
+    implementation("com.facebook.react:react-android")
 
-//     if (hermesEnabled.toBoolean()) {
-//         implementation("com.facebook.react:hermes-android")
-//     } else {
-//         implementation jscFlavor
-//     }
-// }
-
-import React, { useState, memo } from 'react';
-import { View, Text, Button } from 'react-native';
-
-// 🔹 Step 1: Create a child component
-const Child = ({ value }) => {
-  console.log('👶 Child re-rendered');
-  return (
-    <View style={{ padding: 10 }}>
-      <Text style={{ fontSize: 18 }}>Child Value: {value}</Text>
-    </View>
-  );
-};
-
-// 🔹 Step 2: Wrap the child with React.memo
-// 👉 React.memo will prevent re-renders unless props change
-const MemoizedChild = memo(Child);
-
-// 🔹 Step 3: Parent component
-const MemoExample = () => {
-  const [count, setCount] = useState(0);
-  const [childValue] = useState('Fixed Value');
-
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={{ fontSize: 20 }}>Parent Count: {count}</Text>
-
-      {/* 🔹 Child will NOT re-render when count changes, because props are same */}
-      <MemoizedChild value={childValue} />
-
-      <Button title="Increase Count" onPress={() => setCount(count + 1)} />
-    </View>
-  );
-};
-
-export default MemoExample;
+    if (hermesEnabled.toBoolean()) {
+        implementation("com.facebook.react:hermes-android")
+    } else {
+        implementation jscFlavor
+    }
+}
